@@ -1,0 +1,19 @@
+# OS files #
+############
+[Tt]humbs.db
+*.DS_Store
+._*
+
+# Visual Studio user files #
+############################
+*.suo
+*.user
+
+# Binaries and intermediate files #
+###################################
+obj/
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+x64
+ipch
