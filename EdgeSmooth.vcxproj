@@ -335,7 +335,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>/opt:lbr /ignore:4013 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib; core.lib; geom.lib; gfx.lib; mesh.lib; maxutil.lib; maxscrpt.lib; gup.lib; paramblk2.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;mnmath.lib;maxutil.lib;maxscrpt.lib;gup.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\x64\EdgeSmooth.gup</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Autodesk\3ds Max 2010 SDK\maxsdk\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -444,7 +444,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions> /ignore:4013 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib; core.lib; geom.lib; gfx.lib; mesh.lib; maxutil.lib; maxscrpt.lib; gup.lib; paramblk2.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;mnmath.lib;maxutil.lib;maxscrpt.lib;gup.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\x64\EdgeSmooth.gup</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Autodesk\3ds Max 2010 SDK\maxsdk\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -550,7 +550,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions> /ignore:4013 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib; core.lib; geom.lib; gfx.lib; mesh.lib; maxutil.lib; maxscrpt.lib; gup.lib; paramblk2.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;mnmath.lib;maxutil.lib;maxscrpt.lib;gup.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\x64\EdgeSmooth.gup</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Autodesk\3ds Max 2010 SDK\maxsdk\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -673,7 +673,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>/opt:lbr /ignore:4013 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib; core.lib; geom.lib; gfx.lib; mesh.lib; maxutil.lib; maxscrpt.lib; gup.lib; paramblk2.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;mnmath.lib;maxutil.lib;maxscrpt.lib;gup.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\x64\EdgeSmooth.gup</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Autodesk\3ds Max 2010 SDK\maxsdk\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -782,7 +782,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions> /ignore:4013 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib; core.lib; geom.lib; gfx.lib; mesh.lib; maxutil.lib; maxscrpt.lib; gup.lib; paramblk2.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;mnmath.lib;maxutil.lib;maxscrpt.lib;gup.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\x64\EdgeSmooth.gup</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Autodesk\3ds Max 2010 SDK\maxsdk\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -888,7 +888,7 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions> /ignore:4013 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib; core.lib; geom.lib; gfx.lib; mesh.lib; maxutil.lib; maxscrpt.lib; gup.lib; paramblk2.lib;;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>odbc32.lib;odbccp32.lib;comctl32.lib;bmm.lib;core.lib;geom.lib;gfx.lib;mesh.lib;mnmath.lib;maxutil.lib;maxscrpt.lib;gup.lib;paramblk2.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\x64\EdgeSmooth.gup</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Autodesk\3ds Max 2010 SDK\maxsdk\x64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>

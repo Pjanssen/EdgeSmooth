@@ -1,7 +1,9 @@
 #include "EdgeSmooth.h"
 #include "iepoly.h"
 #include "mnmath.h"
+#include "mnmesh.h"
 
+#define HARD_EDGE_FLAG MN_USER
 
 //Gets the EPoly* from an INode*.
 //Throws an exception if the inode is not an epoly.
@@ -69,6 +71,50 @@ bool _all(MNMesh* mesh, BitArray xs, indexedMeshOp f)
 }
 
 
+void _flagHardEdges(MNMesh* mesh, DWORD flag)
+{
+	int edgeCount = mesh->ENum();
+	for (int e = 0; e < edgeCount; e++)
+	{
+		if (_isHard(mesh, e) && !_isOneSidedEdge(mesh, e))
+			mesh->E(e)->SetFlag(flag, true);
+	}
+}
+
+void _addFlagHardEdges(MNMesh* mesh, BitArray edges, DWORD flag, bool val)
+{
+	int edgesSize = edges.GetSize();
+	for (int e = 0; e < edgesSize; e++)
+	{
+		if (edges[e] && !_isOneSidedEdge(mesh, e)) 
+			mesh->E(e)->SetFlag(HARD_EDGE_FLAG, val);
+	}
+}
+
+
+
+void _resmooth(MNMesh* mesh, BitArray edges, bool makeHard)
+{
+	mesh->ClearEFlags(HARD_EDGE_FLAG);
+	
+	//Flag all edges that are currently hard.
+	_flagHardEdges(mesh, HARD_EDGE_FLAG);
+
+	//Add/Remove flags from edges that should be smoothed/unsmoothed.
+	_addFlagHardEdges(mesh, edges, HARD_EDGE_FLAG, makeHard);
+
+	//Smooth model.
+	mesh->SmoothByCreases(HARD_EDGE_FLAG);
+
+	//TODO clean up unneeded smoothing groups
+	//I.e. remove smoothing groups which have no use because
+	//all its edges are hard.
+
+	mesh->ClearEFlags(HARD_EDGE_FLAG);
+}
+
+
+
 BOOL IsSoft(INode* node, BitArray* edges) 
 {
 	EPoly* poly = _get_epoly(node);
@@ -83,5 +129,31 @@ BOOL IsHard(INode* node, BitArray* edges)
 }
 
 
-BOOL MakeSoft(INode* node, BitArray* edges) { return false; }
-BOOL MakeHard(INode* node, BitArray* edges) { return false; }
+BOOL MakeSoft(INode* node, BitArray* edges) 
+{ 
+	EPoly* poly = _get_epoly(node);
+	MNMesh* mesh = poly->GetMeshPtr();
+	int numSet = edges->NumberSet();
+
+	if (numSet == mesh->ENum())
+		mesh->Resmooth(true);
+	else
+		_resmooth(mesh, *edges, false);
+
+	return true;
+}
+
+
+BOOL MakeHard(INode* node, BitArray* edges) 
+{
+	EPoly* poly = _get_epoly(node);
+	MNMesh* mesh = poly->GetMeshPtr();
+	int numSet = edges->NumberSet();
+
+	if (numSet == mesh->ENum())
+		mesh->Resmooth(false);
+	else
+		_resmooth(mesh, *edges, true);
+
+	return true;
+}
