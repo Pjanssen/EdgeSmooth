@@ -21,6 +21,9 @@
     <ClCompile Include="EdgeSmoothStaticInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EdgeSmooth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EdgeSmooth.def">

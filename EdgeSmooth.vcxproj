@@ -914,6 +914,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DllEntry.cpp" />
+    <ClCompile Include="EdgeSmooth.cpp" />
     <ClCompile Include="EdgeSmoothStaticInterface.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "3dsmaxsdk_preinclude.h"
 #include "Max.h"
 #include "ifnpub.h"
@@ -28,7 +30,7 @@ public:
             2,                /* Number of arguments */
                 _M("node"),   /* argument internal name */
                 0,            /* argument localizable name string resource id */
-                TYPE_INODE,   /* arg type */
+				TYPE_INODE,   /* arg type */
 				_M("edges"),
 				0,
 				TYPE_BITARRAY,
