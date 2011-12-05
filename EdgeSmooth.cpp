@@ -103,7 +103,7 @@ void _resmooth(MNMesh* mesh, BitArray edges, bool makeHard)
 	//Add/Remove flags from edges that should be smoothed/unsmoothed.
 	_addFlagHardEdges(mesh, edges, HARD_EDGE_FLAG, makeHard);
 
-	//Smooth model.
+	//Smooth the mesh.
 	mesh->SmoothByCreases(HARD_EDGE_FLAG);
 
 	//TODO clean up unneeded smoothing groups
@@ -111,6 +111,15 @@ void _resmooth(MNMesh* mesh, BitArray edges, bool makeHard)
 	//all its edges are hard.
 
 	mesh->ClearEFlags(HARD_EDGE_FLAG);
+}
+
+
+void _redraw(INode* node, MNMesh* mesh)
+{
+	mesh->InvalidateTopoCache(false);
+	node->NotifyDependents(FOREVER, PART_TOPO, REFMSG_CHANGE);
+	Interface* ip = GetCOREInterface();
+	ip->RedrawViews(ip->GetTime());
 }
 
 
@@ -140,6 +149,8 @@ BOOL MakeSoft(INode* node, BitArray* edges)
 	else
 		_resmooth(mesh, *edges, false);
 
+	_redraw(node, mesh);
+
 	return true;
 }
 
@@ -154,6 +165,8 @@ BOOL MakeHard(INode* node, BitArray* edges)
 		mesh->Resmooth(false);
 	else
 		_resmooth(mesh, *edges, true);
+
+	_redraw(node, mesh);
 
 	return true;
 }
