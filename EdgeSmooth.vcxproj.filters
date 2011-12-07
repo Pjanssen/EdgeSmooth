@@ -24,6 +24,9 @@
     <ClCompile Include="EdgeSmooth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EdgeSmoothActionTable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EdgeSmooth.def">
@@ -38,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EdgeSmooth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeSmoothActionTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

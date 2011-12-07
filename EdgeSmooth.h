@@ -21,7 +21,14 @@ BOOL IsHard(INode* node, BitArray* edges);
 //EdgeSmooth.MakeSoft $ (polyOp.getEdgeSelection $)
 BOOL MakeSoft(INode* node, BitArray* edges);
 
+
 //Unsmooths the supplied edges in the mesh and returns true upon success.
 //Usage in maxscript on current selection: 
 //EdgeSmooth.MakeHard $ (polyOp.getEdgeSelection $)
 BOOL MakeHard(INode* node, BitArray* edges);
+
+
+//Two wrapper functions that apply the MakeSoft and MakeHard functions
+//to the current selection.
+BOOL MakeSelSoft();
+BOOL MakeSelHard();

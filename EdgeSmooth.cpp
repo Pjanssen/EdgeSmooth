@@ -170,3 +170,29 @@ BOOL MakeHard(INode* node, BitArray* edges)
 
 	return true;
 }
+
+
+typedef BOOL (*makeFn)(INode*, BitArray*);
+
+BOOL MakeSel(makeFn fn)
+{
+	Interface* ip = GetCOREInterface();
+	
+	//Check selection count.
+	int selCount = ip->GetSelNodeCount();
+	if (selCount == 0)
+		throw MAXException("Selection set empty");
+	if (selCount > 1)
+		throw MAXException("EdgeSmooth can only be applied to a single object");
+
+	//Get edge selection.
+	INode* selNode = ip->GetSelNode(0);
+	EPoly* poly = _get_epoly(selNode);
+	BitArray* edgeSel = new BitArray();
+	poly->GetMeshPtr()->getEdgeSel(*edgeSel);
+	
+	return fn(selNode, edgeSel);
+}
+
+BOOL MakeSelSoft() { return MakeSel(MakeSoft); }
+BOOL MakeSelHard() { return MakeSel(MakeHard); }

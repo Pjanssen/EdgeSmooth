@@ -915,6 +915,7 @@
   <ItemGroup>
     <ClCompile Include="DllEntry.cpp" />
     <ClCompile Include="EdgeSmooth.cpp" />
+    <ClCompile Include="EdgeSmoothActionTable.cpp" />
     <ClCompile Include="EdgeSmoothStaticInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -923,6 +924,7 @@
   <ItemGroup>
     <ClInclude Include="3dsmaxsdk_preinclude.h" />
     <ClInclude Include="EdgeSmooth.h" />
+    <ClInclude Include="EdgeSmoothActionTable.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

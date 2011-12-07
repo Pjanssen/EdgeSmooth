@@ -51,6 +51,8 @@ BEGIN
     IDS_CLASS_NAME          "EdgeSmooth"
     IDS_PARAMS              "Parameters"
     IDS_SPIN                "Spin"
+    IDS_MAKE_SOFT           "Soften Edge"
+    IDS_MAKE_HARD           "Harden Edge"
 END
 
 #endif    // English (United States) resources
@@ -77,6 +79,18 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_EDGESMOOTH_SHORTCUTS ACCELERATORS
+BEGIN
+    "S",            ID_MAKE_SOFT,           VIRTKEY, SHIFT, NOINVERT
+    "H",            ID_MAKE_HARD,           VIRTKEY, SHIFT, NOINVERT
+END
 
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
