@@ -10,6 +10,7 @@
 *.user
 *.sdf
 *.opensdf
+*.aps
 
 # Binaries and intermediate files #
 ###################################
