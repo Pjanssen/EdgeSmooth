@@ -2,21 +2,26 @@
 #include "iepoly.h"
 #include "mnmath.h"
 #include "mnmesh.h"
+#include "polyobj.h"
+#include "modstack.h"
+#include "iEPolyMod.h"
 
 #define HARD_EDGE_FLAG MN_USER
 
-//Gets the EPoly* from an INode*.
-//Throws an exception if the inode is not an epoly.
-EPoly* _get_epoly(INode* node)
-{
-	BaseInterface* ip;
-	Object* obj = node->GetObjectRef();
-	if ((ip = obj->GetInterface(EPOLY_INTERFACE)) == NULL)
-		throw MAXException("Unable to get EPoly interface from node.", 0);
-	
-	return (EPoly*)ip;
-}
 
+
+MNMesh* _get_mesh(INode* node)
+{
+	Object* baseObj = node->GetObjectRef()->FindBaseObject();
+	if (baseObj == NULL)
+		throw MAXException("Could not find base object.");
+
+	EPoly* poly = (EPoly*)baseObj->GetInterface(EPOLY_INTERFACE);
+	if (poly == NULL)
+		throw MAXException("Could not get EPoly interface.");
+
+	return poly->GetMeshPtr();
+}
 
 
 
@@ -126,22 +131,21 @@ void _redraw(INode* node, MNMesh* mesh)
 
 BOOL IsSoft(INode* node, BitArray* edges) 
 {
-	EPoly* poly = _get_epoly(node);
-	return _all(poly->GetMeshPtr(), *edges, _isSoft);
+	MNMesh* mesh = _get_mesh(node);
+	return _all(mesh, *edges, _isSoft);
 }
 
 
 BOOL IsHard(INode* node, BitArray* edges) 
 {
-	EPoly* poly = _get_epoly(node);
-	return _all(poly->GetMeshPtr(), *edges, _isHard);
+	MNMesh* mesh = _get_mesh(node);
+	return _all(mesh, *edges, _isHard);
 }
 
 
-BOOL MakeSoft(INode* node, BitArray* edges) 
+void MakeSoft(INode* node, BitArray* edges) 
 { 
-	EPoly* poly = _get_epoly(node);
-	MNMesh* mesh = poly->GetMeshPtr();
+	MNMesh* mesh = _get_mesh(node);
 	int numSet = edges->NumberSet();
 
 	if (numSet == mesh->ENum())
@@ -150,15 +154,12 @@ BOOL MakeSoft(INode* node, BitArray* edges)
 		_resmooth(mesh, *edges, false);
 
 	_redraw(node, mesh);
-
-	return true;
 }
 
 
-BOOL MakeHard(INode* node, BitArray* edges) 
+void MakeHard(INode* node, BitArray* edges) 
 {
-	EPoly* poly = _get_epoly(node);
-	MNMesh* mesh = poly->GetMeshPtr();
+	MNMesh* mesh =  _get_mesh(node);
 	int numSet = edges->NumberSet();
 
 	if (numSet == mesh->ENum())
@@ -167,14 +168,12 @@ BOOL MakeHard(INode* node, BitArray* edges)
 		_resmooth(mesh, *edges, true);
 
 	_redraw(node, mesh);
-
-	return true;
 }
 
 
-typedef BOOL (*makeFn)(INode*, BitArray*);
+typedef void (*makeFn)(INode*, BitArray*);
 
-BOOL MakeSel(makeFn fn)
+void MakeSel(makeFn fn)
 {
 	Interface* ip = GetCOREInterface();
 	
@@ -187,12 +186,12 @@ BOOL MakeSel(makeFn fn)
 
 	//Get edge selection.
 	INode* selNode = ip->GetSelNode(0);
-	EPoly* poly = _get_epoly(selNode);
 	BitArray* edgeSel = new BitArray();
-	poly->GetMeshPtr()->getEdgeSel(*edgeSel);
+	MNMesh* mesh = _get_mesh(selNode);
+	mesh->getEdgeSel(*edgeSel);
 	
-	return fn(selNode, edgeSel);
+	fn(selNode, edgeSel);
 }
 
-BOOL MakeSelSoft() { return MakeSel(MakeSoft); }
-BOOL MakeSelHard() { return MakeSel(MakeHard); }
+void MakeSelSoft() { MakeSel(MakeSoft); }
+void MakeSelHard() { MakeSel(MakeHard); }

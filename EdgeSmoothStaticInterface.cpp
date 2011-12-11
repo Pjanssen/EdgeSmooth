@@ -17,6 +17,8 @@ public:
 		isHard,
 		makeSoft,
 		makeHard,
+		makeSelSoft,
+		makeSelHard,
     };
 
     EdgeSmoothStaticInterface() : FPInterfaceDesc(id, _M("EdgeSmooth"), 0, NULL, FP_CORE, end)
@@ -55,7 +57,7 @@ public:
             makeSoft,         /* function ID */
             _M("MakeSoft"),   /* internal name */
             0,                /* function name string resource name */ 
-            TYPE_BOOL,        /* Return type */
+            TYPE_VOID,        /* Return type */
             0,                /* Flags */
             2,                /* Number of arguments */
                 _M("node"),   /* argument internal name */
@@ -79,15 +81,35 @@ public:
 				_M("edges"),
 				0,
 				TYPE_BITARRAY,
-            end); 
+            end);
+
+		 AppendFunction(
+            makeSelSoft,         /* function ID */
+            _M("MakeSelSoft"),   /* internal name */
+            0,                /* function name string resource name */ 
+            TYPE_VOID,        /* Return type */
+            0,                /* Flags */
+            0,
+            end);
+
+		AppendFunction(
+            makeSelHard,         /* function ID */
+            _M("MakeSelHard"),   /* internal name */
+            0,                /* function name string resource name */ 
+            TYPE_VOID,        /* Return type */
+            0,                /* Flags */
+            0,
+            end);
     }
 
 
     BEGIN_FUNCTION_MAP
 		FN_2(isSoft, TYPE_BOOL, IsSoft, TYPE_INODE, TYPE_BITARRAY)
 		FN_2(isHard, TYPE_BOOL, IsHard, TYPE_INODE, TYPE_BITARRAY)
-		FN_2(makeSoft, TYPE_BOOL, MakeSoft, TYPE_INODE, TYPE_BITARRAY)
-		FN_2(makeHard, TYPE_BOOL, MakeHard, TYPE_INODE, TYPE_BITARRAY)
+		VFN_2(makeSoft, MakeSoft, TYPE_INODE, TYPE_BITARRAY)
+		VFN_2(makeHard, MakeHard, TYPE_INODE, TYPE_BITARRAY)
+		VFN_0(makeSelSoft, MakeSelSoft)
+		VFN_0(makeSelHard, MakeSelHard)
     END_FUNCTION_MAP
 };
 
