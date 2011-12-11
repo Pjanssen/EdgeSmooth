@@ -15,101 +15,39 @@ public:
     {
 		isSoft,
 		isHard,
-		makeSoft,
-		makeHard,
-		makeSelSoft,
-		makeSelHard,
+		apply,
     };
 
-    EdgeSmoothStaticInterface() : FPInterfaceDesc(id, _M("EdgeSmooth"), 0, NULL, FP_CORE, end)
+	EdgeSmoothStaticInterface() : FPInterfaceDesc(id, _M("EdgeSmooth"), 0, NULL, FP_CORE, end)
     {
-		AppendFunction(
-            isSoft,           /* function ID */
-            _M("IsSoft"),     /* internal name */
-            0,                /* function name string resource name */ 
-            TYPE_BOOL,        /* Return type */
-            0,                /* Flags */
-            2,                /* Number of arguments */
-                _M("node"),   /* argument internal name */
-                0,            /* argument localizable name string resource id */
-				TYPE_INODE,   /* arg type */
-				_M("edges"),
-				0,
-				TYPE_BITARRAY,
-            end);
+		//AppendFunction parameters:
+		//AppendFunction(function ID, internal name, function name string resource name,
+        //               Return type, Flags, Number of arguments, argument internal name,
+        //               argument localizable name string resource id, arg type, end);
 
-		AppendFunction(
-            isHard,           /* function ID */
-            _M("IsHard"),     /* internal name */
-            0,                /* function name string resource name */ 
-            TYPE_BOOL,        /* Return type */
-            0,                /* Flags */
-            2,                /* Number of arguments */
-                _M("node"),   /* argument internal name */
-                0,            /* argument localizable name string resource id */
-                TYPE_INODE,   /* arg type */
-				_M("edges"),
-				0,
-				TYPE_BITARRAY,
-            end);
+		AppendFunction(isSoft, _M("IsSoft"), 0, TYPE_BOOL, 0, 2,
+                                             _M("node"), 0, TYPE_INODE,
+				                             _M("edges"), 0, TYPE_BITARRAY,
+                                             end);
 
-        AppendFunction(
-            makeSoft,         /* function ID */
-            _M("MakeSoft"),   /* internal name */
-            0,                /* function name string resource name */ 
-            TYPE_VOID,        /* Return type */
-            0,                /* Flags */
-            2,                /* Number of arguments */
-                _M("node"),   /* argument internal name */
-                0,            /* argument localizable name string resource id */
-                TYPE_INODE,   /* arg type */
-				_M("edges"),
-				0,
-				TYPE_BITARRAY,
-            end);
+		AppendFunction(isHard, _M("IsHard"), 0, TYPE_BOOL, 0, 2,
+			                                 _M("node"), 0, TYPE_INODE,
+											 _M("edges"), 0, TYPE_BITARRAY,
+                                             end);
 
-		AppendFunction(
-            makeHard,         /* function ID */
-            _M("MakeHard"),   /* internal name */
-            0,                /* function name string resource name */ 
-            TYPE_VOID,        /* Return type */
-            0,                /* Flags */
-            2,                /* Number of arguments */
-                _M("node"),   /* argument internal name */
-                0,            /* argument localizable name string resource id */
-                TYPE_INODE,   /* arg type */
-				_M("edges"),
-				0,
-				TYPE_BITARRAY,
-            end);
 
-		 AppendFunction(
-            makeSelSoft,         /* function ID */
-            _M("MakeSelSoft"),   /* internal name */
-            0,                /* function name string resource name */ 
-            TYPE_VOID,        /* Return type */
-            0,                /* Flags */
-            0,
-            end);
-
-		AppendFunction(
-            makeSelHard,         /* function ID */
-            _M("MakeSelHard"),   /* internal name */
-            0,                /* function name string resource name */ 
-            TYPE_VOID,        /* Return type */
-            0,                /* Flags */
-            0,
-            end);
+		AppendFunction(apply, _M("Apply"), 0, TYPE_VOID, 0, 3,
+			                               _M("makeSoft"), 0, TYPE_BOOL,
+										   _M("node"), 0, TYPE_INODE, f_keyArgDefault, NULL, 
+										   _M("edges"), 0, TYPE_BITARRAY, f_keyArgDefault, NULL,
+										   end);
     }
 
 
     BEGIN_FUNCTION_MAP
-		FN_2(isSoft, TYPE_BOOL, IsSoft, TYPE_INODE, TYPE_BITARRAY)
-		FN_2(isHard, TYPE_BOOL, IsHard, TYPE_INODE, TYPE_BITARRAY)
-		VFN_2(makeSoft, MakeSoft, TYPE_INODE, TYPE_BITARRAY)
-		VFN_2(makeHard, MakeHard, TYPE_INODE, TYPE_BITARRAY)
-		VFN_0(makeSelSoft, MakeSelSoft)
-		VFN_0(makeSelHard, MakeSelHard)
+		FN_2(isSoft, TYPE_BOOL, EdgeSmooth::IsSoft, TYPE_INODE, TYPE_BITARRAY)
+		FN_2(isHard, TYPE_BOOL, EdgeSmooth::IsHard, TYPE_INODE, TYPE_BITARRAY)
+		VFN_3(apply, EdgeSmooth::ApplyFP, TYPE_BOOL, TYPE_INODE, TYPE_BITARRAY)
     END_FUNCTION_MAP
 };
 

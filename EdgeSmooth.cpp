@@ -98,7 +98,7 @@ void _addFlagHardEdges(MNMesh* mesh, BitArray edges, DWORD flag, bool val)
 
 
 
-void _resmooth(MNMesh* mesh, BitArray edges, bool makeHard)
+void _resmooth(MNMesh* mesh, BitArray edges, bool makeSoft)
 {
 	mesh->ClearEFlags(HARD_EDGE_FLAG);
 	
@@ -106,7 +106,7 @@ void _resmooth(MNMesh* mesh, BitArray edges, bool makeHard)
 	_flagHardEdges(mesh, HARD_EDGE_FLAG);
 
 	//Add/Remove flags from edges that should be smoothed/unsmoothed.
-	_addFlagHardEdges(mesh, edges, HARD_EDGE_FLAG, makeHard);
+	_addFlagHardEdges(mesh, edges, HARD_EDGE_FLAG, !makeSoft);
 
 	//Smooth the mesh.
 	mesh->SmoothByCreases(HARD_EDGE_FLAG);
@@ -129,51 +129,23 @@ void _redraw(INode* node, MNMesh* mesh)
 
 
 
-BOOL IsSoft(INode* node, BitArray* edges) 
+BOOL EdgeSmooth::IsSoft(INode* node, BitArray* edges) 
 {
 	MNMesh* mesh = _get_mesh(node);
 	return _all(mesh, *edges, _isSoft);
 }
 
 
-BOOL IsHard(INode* node, BitArray* edges) 
+BOOL EdgeSmooth::IsHard(INode* node, BitArray* edges) 
 {
 	MNMesh* mesh = _get_mesh(node);
 	return _all(mesh, *edges, _isHard);
 }
 
 
-void MakeSoft(INode* node, BitArray* edges) 
-{ 
-	MNMesh* mesh = _get_mesh(node);
-	int numSet = edges->NumberSet();
-
-	if (numSet == mesh->ENum())
-		mesh->Resmooth(true);
-	else
-		_resmooth(mesh, *edges, false);
-
-	_redraw(node, mesh);
-}
 
 
-void MakeHard(INode* node, BitArray* edges) 
-{
-	MNMesh* mesh =  _get_mesh(node);
-	int numSet = edges->NumberSet();
-
-	if (numSet == mesh->ENum())
-		mesh->Resmooth(false);
-	else
-		_resmooth(mesh, *edges, true);
-
-	_redraw(node, mesh);
-}
-
-
-typedef void (*makeFn)(INode*, BitArray*);
-
-void MakeSel(makeFn fn)
+void EdgeSmooth::Apply(bool makeSoft) 
 {
 	Interface* ip = GetCOREInterface();
 	
@@ -190,8 +162,26 @@ void MakeSel(makeFn fn)
 	MNMesh* mesh = _get_mesh(selNode);
 	mesh->getEdgeSel(*edgeSel);
 	
-	fn(selNode, edgeSel);
+	Apply(makeSoft, selNode, edgeSel);
 }
 
-void MakeSelSoft() { MakeSel(MakeSoft); }
-void MakeSelHard() { MakeSel(MakeHard); }
+void EdgeSmooth::Apply(bool makeSoft, INode* node, BitArray* edges) 
+{
+	MNMesh* mesh =  _get_mesh(node);
+	int numSet = edges->NumberSet();
+
+	if (numSet == mesh->ENum())
+		mesh->Resmooth(makeSoft);
+	else
+		_resmooth(mesh, *edges, makeSoft);
+
+	_redraw(node, mesh);
+}
+
+void EdgeSmooth::ApplyFP(bool makeSoft, INode* node, BitArray* edges) 
+{
+	if (node == NULL && edges == NULL)
+		Apply(makeSoft);
+	else
+		Apply(makeSoft, node, edges);
+}
