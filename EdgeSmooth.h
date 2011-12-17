@@ -3,6 +3,8 @@
 #include "3dsmaxsdk_preinclude.h"
 #include "max.h"
 
+
+
 class EdgeSmooth
 {
 public:

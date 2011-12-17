@@ -53,6 +53,8 @@ BEGIN
     IDS_SPIN                "Spin"
     IDS_MAKE_SOFT           "Soften Edge"
     IDS_MAKE_HARD           "Harden Edge"
+    IDS_MAKE_SOFT_TT        "Soften selected edges"
+    IDS_MAKE_HARD_TT        "Harden selected edges"
 END
 
 #endif    // English (United States) resources
@@ -91,6 +93,15 @@ BEGIN
     "S",            ID_MAKE_SOFT,           VIRTKEY, SHIFT, NOINVERT
     "H",            ID_MAKE_HARD,           VIRTKEY, SHIFT, NOINVERT
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
 
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////

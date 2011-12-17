@@ -24,8 +24,8 @@ ActionTable* BuildActionTable()
 
    ActionTable* pTab;
 
-   pTab = new ActionTable(edgeSmoothActions,
-						  edgeSmoothContext,
+   pTab = new ActionTable(edgeSmoothActionsId,
+                          edgeSmoothContext,
                           name,
                           hAccel,
                           numOps,
@@ -47,11 +47,11 @@ BOOL EdgeSmoothActionCB::ExecuteAction(int id)
    {
    case ID_MAKE_SOFT:
 	   DebugPrint("Make soft");
-	   MakeSelSoft();
+	   EdgeSmooth::Apply(true);
 	   return TRUE;
    case ID_MAKE_HARD:
 	   DebugPrint("Make hard");
-	   MakeSelHard();
+	   EdgeSmooth::Apply(false);
 	   return TRUE;
    }
 

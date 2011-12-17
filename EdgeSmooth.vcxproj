@@ -915,16 +915,19 @@
   <ItemGroup>
     <ClCompile Include="DllEntry.cpp" />
     <ClCompile Include="EdgeSmooth.cpp" />
-    <ClCompile Include="EdgeSmoothActionTable.cpp" />
-    <ClCompile Include="EdgeSmoothStaticInterface.cpp" />
+    <ClCompile Include="IEdgeSmooth.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EdgeSmooth.def" />
+    <None Include="icon1.ico" />
+    <None Include="resources\hard_16.ico" />
+    <None Include="resources\makeHard.ico" />
+    <None Include="resources\makeSoft.ico" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dsmaxsdk_preinclude.h" />
     <ClInclude Include="EdgeSmooth.h" />
-    <ClInclude Include="EdgeSmoothActionTable.h" />
+    <ClInclude Include="IEdgeSmooth.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

@@ -18,19 +18,28 @@
     <ClCompile Include="DllEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EdgeSmoothStaticInterface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EdgeSmooth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EdgeSmoothActionTable.cpp">
+    <ClCompile Include="IEdgeSmooth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EdgeSmooth.def">
       <Filter>Source Files</Filter>
+    </None>
+    <None Include="icon1.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\hard_16.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\makeHard.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="resources\makeSoft.ico">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -43,7 +52,7 @@
     <ClInclude Include="EdgeSmooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EdgeSmoothActionTable.h">
+    <ClInclude Include="IEdgeSmooth.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
