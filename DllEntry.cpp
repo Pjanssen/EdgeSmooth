@@ -1,7 +1,5 @@
-#include "IEdgeSmooth.h"
+#include "EdgeSmoothClassDesc.h"
 
-//extern ClassDesc2* GetEdgeSmoothCD();
-extern ClassDesc2* GetEdgeSmoothDesc();
 
 HINSTANCE hInstance;
 int controlsInit = FALSE;
@@ -69,10 +67,6 @@ __declspec( dllexport ) ULONG LibVersion()
 // on your DLL, and send you a message.
 __declspec( dllexport ) int LibInitialize(void)
 {
-	//BuildActionTable();
-	//EdgeSmoothActionCB* esActionCB = new EdgeSmoothActionCB();
-	//GetCOREInterface()->GetActionManager()->ActivateActionTable(esActionCB, edgeSmoothActions);
-	
 	return TRUE; // TODO: Perform initialization here.
 }
 

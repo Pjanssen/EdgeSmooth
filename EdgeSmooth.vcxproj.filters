@@ -24,28 +24,16 @@
     <ClCompile Include="IEdgeSmooth.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EdgeSmoothClassDesc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="EdgeSmooth.def">
       <Filter>Source Files</Filter>
     </None>
-    <None Include="icon1.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\hard_16.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\makeHard.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="resources\makeSoft.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3dsmaxsdk_preinclude.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -53,6 +41,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IEdgeSmooth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeSmoothClassDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

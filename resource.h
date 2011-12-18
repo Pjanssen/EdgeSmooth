@@ -11,6 +11,7 @@
 #define IDS_MAKE_HARD                   7
 #define IDS_MAKE_SOFT_TT                8
 #define IDS_MAKE_HARD_TT                9
+#define IDS_ACT_DESC                    10
 #define IDR_EDGESMOOTH_SHORTCUTS        101
 #define IDI_ICON1                       103
 #define IDI_MAKE_HARD                   104

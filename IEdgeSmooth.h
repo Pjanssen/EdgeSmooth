@@ -9,41 +9,50 @@
 #include <guplib.h>
 
 #include "EdgeSmooth.h"
+#include "EdgeSmoothClassDesc.h"
 
-extern TCHAR *GetString(int id);
+const Interface_ID EDGESMOOTH_FN_INTERFACE(0x34363b16, 0x48cf5a07);
+const Interface_ID EDGESMOOTH_ACT_INTERFACE(0x565b5802, 0x28db52d4);
 
-extern HINSTANCE hInstance;
-
-extern const Class_ID iedgesmooth_CLASS_ID;
-
-extern const Interface_ID EDGESMOOTH_INTERFACE;
-
-inline class IEdgeSmooth* GetFP_basic() 
+inline class IEdgeSmooth* GetEdgeSmooth() 
 { 
-	return (IEdgeSmooth*) GetCOREInterface(EDGESMOOTH_INTERFACE); 
+	return (IEdgeSmooth*) GetCOREInterface(EDGESMOOTH_FN_INTERFACE); 
 }
+
 
 class IEdgeSmooth : public FPStaticInterface
 {
-public: 
-	virtual FPStatus MakeSoft() = 0;
-	virtual FPStatus MakeHard() = 0;
-
+public:
 	enum {
-		es_makeSoft,
-		es_makeHard,
+		es_isSoft,
+		es_isHard,
+		es_apply,
 	};
+
+	DECLARE_DESCRIPTOR_INIT(IEdgeSmooth)
+	BEGIN_FUNCTION_MAP
+		FN_2(IEdgeSmooth::es_isSoft, TYPE_BOOL, EdgeSmooth::IsSoft, TYPE_INODE, TYPE_BITARRAY)
+		FN_2(IEdgeSmooth::es_isHard, TYPE_BOOL, EdgeSmooth::IsHard, TYPE_INODE, TYPE_BITARRAY)
+		VFN_3(IEdgeSmooth::es_apply, EdgeSmooth::ApplyFP, TYPE_BOOL, TYPE_INODE, TYPE_BITARRAY)
+	END_FUNCTION_MAP
 };
 
-class IEdgeSmoothImpl : public IEdgeSmooth
+class IEdgeSmoothActions : public FPStaticInterface
 {
 public:
-	FPStatus MakeSoft();
-	FPStatus MakeHard();
+	FPStatus ApplySoft();
+	FPStatus ApplyHard();
 
-	DECLARE_DESCRIPTOR_INIT(IEdgeSmoothImpl)
+	enum {
+		es_applySoft,
+		es_applyHard,
+		es_isEnabled,
+	};
+
+	DECLARE_DESCRIPTOR_INIT(IEdgeSmoothActions)
 	BEGIN_FUNCTION_MAP
-		FN_ACTION(IEdgeSmooth::es_makeSoft, MakeSoft)
-		FN_ACTION(IEdgeSmooth::es_makeHard, MakeHard)
+		FN_ACTION(IEdgeSmoothActions::es_applySoft, ApplySoft)
+		FN_ACTION(IEdgeSmoothActions::es_applyHard, ApplyHard)
+		FN_PRED(IEdgeSmoothActions::es_isEnabled, EdgeSmooth::CanApply)
 	END_FUNCTION_MAP
 };

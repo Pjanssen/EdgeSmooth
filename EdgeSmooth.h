@@ -1,8 +1,6 @@
 #pragma once
 
-#include "3dsmaxsdk_preinclude.h"
 #include "max.h"
-
 
 
 class EdgeSmooth
@@ -19,6 +17,11 @@ public:
 	/// Usage in maxscript on current selection: 
 	/// EdgeSmooth.IsHard $ (polyOp.getEdgeSelection $)
 	static BOOL IsHard(INode* node, BitArray* edges);
+
+	/// Returns true if the EdgeSmooth::Apply function can be applied to the current selection.
+	/// Will return false if the current selection count != 1, or if the currently selected object is
+	/// not a poly object.
+	static BOOL CanApply();
 
 	/// Applies the EdgeSmooth function to the currerntly seleceted object and edge selection.
 	/// If makeSoft is true the edges will be smoothed. Maxscript usage example:

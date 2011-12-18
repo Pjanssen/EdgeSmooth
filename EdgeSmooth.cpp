@@ -144,19 +144,34 @@ BOOL EdgeSmooth::IsHard(INode* node, BitArray* edges)
 
 
 
-
-void EdgeSmooth::Apply(bool makeSoft) 
+BOOL EdgeSmooth::CanApply()
 {
 	Interface* ip = GetCOREInterface();
 	
-	//Check selection count.
-	int selCount = ip->GetSelNodeCount();
-	if (selCount == 0)
-		throw MAXException("Selection set empty");
-	if (selCount > 1)
-		throw MAXException("EdgeSmooth can only be applied to a single object");
+	// Check selection count.
+	if (ip->GetSelNodeCount() != 1)
+		return false;
 
+	INode* selNode = ip->GetSelNode(0);
+	// Check if sub-object level is 'edge'.
+	if (selNode->GetObjectRef()->GetSubselState() != MNM_SL_EDGE)
+		return false;
+
+	// Check that selection is EPoly.
+	if (selNode->GetObjectRef()->FindBaseObject()->GetInterface(EPOLY_INTERFACE) == NULL)
+		return false;
+
+	return true;
+}
+
+
+void EdgeSmooth::Apply(bool makeSoft) 
+{
+	if (!CanApply())
+		throw MAXException("Cannot apply EdgeSmooth to the current selection");
+	
 	//Get edge selection.
+	Interface* ip = GetCOREInterface();
 	INode* selNode = ip->GetSelNode(0);
 	BitArray* edgeSel = new BitArray();
 	MNMesh* mesh = _get_mesh(selNode);
@@ -172,7 +187,7 @@ void EdgeSmooth::Apply(bool makeSoft, INode* node, BitArray* edges)
 
 	if (numSet == mesh->ENum())
 		mesh->Resmooth(makeSoft);
-	else
+	else if (numSet > 0)
 		_resmooth(mesh, *edges, makeSoft);
 
 	_redraw(node, mesh);
