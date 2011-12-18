@@ -32,9 +32,4 @@ public:
 	/// If makeSoft is true the edges will be smoothed. Maxscript usage example:
 	/// EdgeSmooth.Apply false node:$ edges:(polyop.getEdgeSelection $)
 	static void Apply(bool makeSoft, INode* node, BitArray* edges);
-
-	/// A wrapper function for the SDK's FunctionPublishing mechanism to allow both overloads
-	/// of the Apply function to be called from maxscript. Should not be called directly other
-	/// than by the static interface.
-	static void ApplyFP(bool makeSoft, INode* node, BitArray* edges);
 };

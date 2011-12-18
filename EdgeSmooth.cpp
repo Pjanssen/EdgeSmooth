@@ -192,11 +192,3 @@ void EdgeSmooth::Apply(bool makeSoft, INode* node, BitArray* edges)
 
 	_redraw(node, mesh);
 }
-
-void EdgeSmooth::ApplyFP(bool makeSoft, INode* node, BitArray* edges) 
-{
-	if (node == NULL && edges == NULL)
-		Apply(makeSoft);
-	else
-		Apply(makeSoft, node, edges);
-}

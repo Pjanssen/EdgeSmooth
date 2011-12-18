@@ -56,6 +56,16 @@ IEdgeSmoothActions edgesmooth_actions (
 //================================================
 
 void IEdgeSmooth::init() { }
+
+void IEdgeSmooth::Apply(BOOL soften, INode* node, BitArray* edges)
+{
+	if (node == NULL && edges == NULL)
+		EdgeSmooth::Apply(soften);
+	else
+		EdgeSmooth::Apply(soften, node, edges);
+}
+
+
 void IEdgeSmoothActions::init() { }
 
 FPStatus IEdgeSmoothActions::ApplySoft()
