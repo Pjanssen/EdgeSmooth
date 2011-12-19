@@ -19,6 +19,11 @@ inline class IEdgeSmooth* GetEdgeSmooth()
 	return (IEdgeSmooth*) GetCOREInterface(EDGESMOOTH_FN_INTERFACE); 
 }
 
+inline class IEdgeSmooth* GetEdgeSmoothActions()
+{
+	return (IEdgeSmooth*) GetCOREInterface(EDGESMOOTH_ACT_INTERFACE);
+}
+
 
 class IEdgeSmooth : public FPStaticInterface
 {

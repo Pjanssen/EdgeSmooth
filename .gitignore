@@ -20,3 +20,4 @@ obj/
 [Rr]elease*/
 x64
 ipch
+build/

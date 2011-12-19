@@ -37,7 +37,7 @@ IEdgeSmoothActions edgesmooth_actions (
 			f_toolTip, IDS_MAKE_HARD_TT,
 			f_buttonText, IDS_MAKE_HARD,
 			f_icon, "edgesmooth", 1,
-			f_shortCut, FNOINVERT | FSHIFT, 72,
+			//f_shortCut, FNOINVERT | FSHIFT, 72, //Shortcut does not seem to work when trying to use it...
 		end,	
 		IEdgeSmoothActions::es_applySoft, _T("MakeSoft"), IDS_MAKE_SOFT, 0,
 			f_isEnabled, IEdgeSmoothActions::es_isEnabled,
@@ -45,7 +45,7 @@ IEdgeSmoothActions edgesmooth_actions (
 			f_toolTip, IDS_MAKE_SOFT_TT, 
 			f_buttonText, IDS_MAKE_SOFT,
 			f_icon, "edgesmooth", 2,
-			f_shortCut, FNOINVERT | FSHIFT, 83,
+			//f_shortCut, FNOINVERT | FSHIFT, 83, //Shortcut does not seem to work when trying to use it...
 		end,
 	end
 );

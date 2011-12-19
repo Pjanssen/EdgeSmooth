@@ -82,18 +82,6 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Accelerator
-//
-
-IDR_EDGESMOOTH_SHORTCUTS ACCELERATORS
-BEGIN
-    "S",            ID_MAKE_SOFT,           VIRTKEY, SHIFT, NOINVERT
-    "H",            ID_MAKE_HARD,           VIRTKEY, SHIFT, NOINVERT
-END
-
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
