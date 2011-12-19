@@ -57,7 +57,7 @@ IEdgeSmoothActions edgesmooth_actions (
 
 void IEdgeSmooth::init() { }
 
-void IEdgeSmooth::Apply(BOOL soften, INode* node, BitArray* edges)
+void IEdgeSmooth::Apply(bool soften, INode* node, BitArray* edges)
 {
 	if (node == NULL && edges == NULL)
 		EdgeSmooth::Apply(soften);

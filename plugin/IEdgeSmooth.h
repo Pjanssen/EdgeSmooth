@@ -28,7 +28,7 @@ inline class IEdgeSmooth* GetEdgeSmoothActions()
 class IEdgeSmooth : public FPStaticInterface
 {
 public:
-	void Apply(BOOL soften, INode* node, BitArray* edges);
+	void Apply(bool soften, INode* node, BitArray* edges);
 
 	enum {
 		es_isSoft,
@@ -40,7 +40,7 @@ public:
 	BEGIN_FUNCTION_MAP
 		FN_2(IEdgeSmooth::es_isSoft, TYPE_BOOL, EdgeSmooth::IsSoft, TYPE_INODE, TYPE_BITARRAY)
 		FN_2(IEdgeSmooth::es_isHard, TYPE_BOOL, EdgeSmooth::IsHard, TYPE_INODE, TYPE_BITARRAY)
-		VFN_3(IEdgeSmooth::es_apply, IEdgeSmooth::Apply, TYPE_BOOL, TYPE_INODE, TYPE_BITARRAY)
+		VFN_3(IEdgeSmooth::es_apply, IEdgeSmooth::Apply, TYPE_bool, TYPE_INODE, TYPE_BITARRAY)
 	END_FUNCTION_MAP
 };
 
