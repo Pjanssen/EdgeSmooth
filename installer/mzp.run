@@ -1,0 +1,9 @@
+name "EdgeSmooth Plugin"
+version 0.1
+
+extract to $temp\edgesmooth
+
+run installer\installer_dialog.ms
+drop installer\installer_dialog.ms
+
+clear temp on MAX exit

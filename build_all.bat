@@ -13,7 +13,7 @@ FOR %%C IN %Configs% DO (
    FOR %%P IN %Platforms% DO (
       ECHO.
       ECHO.
-      ECHO Building %%C ^| %%P
+      ECHO Building EdgeSmooth %%C ^| %%P
       %MSBuild% %Project% /nologo /v:m /p:Configuration=%%C /p:Platform=%%P || goto :error
    )
 )
