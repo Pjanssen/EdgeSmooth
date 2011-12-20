@@ -1,7 +1,9 @@
 #pragma once
 
 #include "max.h"
+#include "resource.h"
 
+extern TCHAR* GetString(int id);
 
 class EdgeSmooth
 {
@@ -32,4 +34,32 @@ public:
 	/// If makeSoft is true the edges will be smoothed. Maxscript usage example:
 	/// EdgeSmooth.Apply false node:$ edges:(polyop.getEdgeSelection $)
 	static void Apply(bool makeSoft, INode* node, BitArray* edges);
+};
+
+
+class EdgeSmoothRestoreObj : public RestoreObj
+{
+private:
+	bool makeSoft;
+	INode* node;
+	BitArray* softEdges;
+	BitArray* hardEdges;
+	
+public:
+	EdgeSmoothRestoreObj(bool makeSoft, INode* node, BitArray* softEdges, BitArray* hardEdges)
+	{
+		this->makeSoft = makeSoft;
+		this->node = node;
+		this->softEdges = softEdges;
+		this->hardEdges = hardEdges;
+	}
+	~EdgeSmoothRestoreObj() {}
+
+	BitArray* AllEdges() { return new BitArray((*(this->softEdges)) | (*(this->hardEdges))); }
+
+	int Size() { return sizeof(INode*) + sizeof(bool) + 2 * sizeof(BitArray*); }
+	void EndHold() { node->ClearAFlag(A_HELD); }
+
+	void Restore(int isUndo);
+	void Redo();
 };

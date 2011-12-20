@@ -165,6 +165,50 @@ BOOL EdgeSmooth::CanApply()
 }
 
 
+void apply(bool makeSoft, INode* node, BitArray* edges, bool undoable)
+{
+	MNMesh* mesh =  _get_mesh(node);
+	int numSet = edges->NumberSet();
+	
+	if (undoable)
+	{
+		if (!theHold.Holding())
+			theHold.Begin();
+
+		//Split the edges list into originally soft and hard edges.
+		int edgesSize = edges->GetSize();
+		BitArray* softEdges = new BitArray(edgesSize);
+		BitArray* hardEdges = new BitArray(edgesSize);
+		for (int e = 0; e < edgesSize; e++)
+		{
+			if ((*edges)[e])
+			{
+				if (_isSoft(mesh, e))
+					softEdges->Set(e);
+				else 
+					hardEdges->Set(e);
+			}
+		}
+		theHold.Put(new EdgeSmoothRestoreObj(makeSoft, node, softEdges, hardEdges));
+		node->SetAFlag(A_HELD);
+	}
+
+	if (numSet == mesh->ENum())
+		mesh->Resmooth(makeSoft);
+	else if (numSet > 0)
+		_resmooth(mesh, *edges, makeSoft);
+
+	if (undoable)
+	{
+		//It appears that theHold.Accept(int) is broken, and leads to unexpected 
+		//junk strings in the undo list. Otherwise I would have used that.
+		char* undoName = GetString(makeSoft ? IDS_MAKE_SOFT : IDS_MAKE_HARD);
+		theHold.Accept(undoName);
+	}
+
+	_redraw(node, mesh);
+}
+
 void EdgeSmooth::Apply(bool makeSoft) 
 {
 	if (!CanApply())
@@ -182,13 +226,17 @@ void EdgeSmooth::Apply(bool makeSoft)
 
 void EdgeSmooth::Apply(bool makeSoft, INode* node, BitArray* edges) 
 {
-	MNMesh* mesh =  _get_mesh(node);
-	int numSet = edges->NumberSet();
+	apply(makeSoft, node, edges, true);
+}
 
-	if (numSet == mesh->ENum())
-		mesh->Resmooth(makeSoft);
-	else if (numSet > 0)
-		_resmooth(mesh, *edges, makeSoft);
 
-	_redraw(node, mesh);
+void EdgeSmoothRestoreObj::Restore(int isUndo)
+{
+	apply(true, this->node, this->softEdges, false);
+	apply(false, this->node, this->hardEdges, false);
+}
+
+void EdgeSmoothRestoreObj::Redo()
+{
+	apply(this->makeSoft, this->node, this->AllEdges(), false);
 }
