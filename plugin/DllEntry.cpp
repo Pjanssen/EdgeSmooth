@@ -1,6 +1,5 @@
-#include "3dsmaxsdk_preinclude.h"
-#include "max.h"
-#include "resource.h"
+#include "EdgeSmoothClassDesc.h"
+
 
 HINSTANCE hInstance;
 int controlsInit = FALSE;
@@ -21,12 +20,20 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,ULONG fdwReason,LPVOID /*lpvReserved*/)
 	return(TRUE);
 }
 
+TCHAR* GetString(int id)
+{
+	static TCHAR buf[256];
+
+	if (hInstance)
+		return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : NULL;
+	return NULL;
+}
+
 // This function returns a string that describes the DLL and where the user
 // could purchase the DLL if they don't have it.
 __declspec( dllexport ) const TCHAR* LibDescription()
 {
-	return "EdgeSmooth plugin";
-	//return GetString(IDS_LIBDESCRIPTION);
+	return GetString(IDS_LIBDESCRIPTION);
 }
 
 // This function returns the number of plug-in classes this DLL
@@ -39,7 +46,10 @@ __declspec( dllexport ) int LibNumberClasses()
 // This function returns the number of plug-in classes this DLL
 __declspec( dllexport ) ClassDesc* LibClassDesc(int i)
 {
-	return 0;
+	switch(i) {
+		case 0: return GetEdgeSmoothDesc();
+		default: return 0;
+	}
 }
 
 // This function returns a pre-defined constant indicating the version of 
@@ -67,13 +77,3 @@ __declspec( dllexport ) int LibShutdown(void)
 {
 	return TRUE;// TODO: Perform un-initialization here.	
 }
-
-TCHAR *GetString(int id)
-{
-	static TCHAR buf[256];
-
-	if (hInstance)
-		return LoadString(hInstance, id, buf, sizeof(buf)) ? buf : NULL;
-	return NULL;
-}
-

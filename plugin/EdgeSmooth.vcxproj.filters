@@ -18,7 +18,13 @@
     <ClCompile Include="DllEntry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EdgeSmoothStaticInterface.cpp">
+    <ClCompile Include="EdgeSmooth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IEdgeSmooth.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EdgeSmoothClassDesc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -28,13 +34,16 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3dsmaxsdk_preinclude.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EdgeSmooth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IEdgeSmooth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EdgeSmoothClassDesc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

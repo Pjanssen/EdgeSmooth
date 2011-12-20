@@ -51,6 +51,10 @@ BEGIN
     IDS_CLASS_NAME          "EdgeSmooth"
     IDS_PARAMS              "Parameters"
     IDS_SPIN                "Spin"
+    IDS_MAKE_SOFT           "Soften Edge"
+    IDS_MAKE_HARD           "Harden Edge"
+    IDS_MAKE_SOFT_TT        "Soften selected edges"
+    IDS_MAKE_HARD_TT        "Harden selected edges"
 END
 
 #endif    // English (United States) resources

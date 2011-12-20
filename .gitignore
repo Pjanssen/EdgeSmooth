@@ -8,6 +8,9 @@
 ############################
 *.suo
 *.user
+*.sdf
+*.opensdf
+*.aps
 
 # Binaries and intermediate files #
 ###################################
@@ -17,3 +20,4 @@ obj/
 [Rr]elease*/
 x64
 ipch
+build/
