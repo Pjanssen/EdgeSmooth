@@ -26,7 +26,9 @@ rollout edgesmooth_pre_install ((edgeSmoothInstaller.getString #title) + " " + \
 	   uninstall_btn.enabled = isInstalled;
 	   
 	   if (isInstalled) then
-	      descr_lbl2.text = edgeSmoothInstaller.getString #descr_lbl2;
+	      descr_lbl2.text = edgeSmoothInstaller.getString #descr_uninst;
+	   else
+	      descr_lbl2.text = edgeSmoothInstaller.getString #descr_inst;
    )
    
    on install_btn pressed do 

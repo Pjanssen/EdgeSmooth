@@ -95,7 +95,7 @@ function getPluginFile =
 
 function checkMaxVersion =
 (
-   getFileSize (getPluginFile()) > 0;
+   doesFileExist (getPluginFile());
 ),
 
 
