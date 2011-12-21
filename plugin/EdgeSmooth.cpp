@@ -9,20 +9,24 @@
 #define HARD_EDGE_FLAG MN_USER
 
 
+EPoly* _get_epoly(INode* node)
+{
+	if (node)
+		return (EPoly*)node->GetObjectRef()->FindBaseObject()->GetInterface(EPOLY_INTERFACE);
+
+	return NULL;
+}
+
+
 
 MNMesh* _get_mesh(INode* node)
 {
-	Object* baseObj = node->GetObjectRef()->FindBaseObject();
-	if (baseObj == NULL)
-		throw MAXException("Could not find base object.");
-
-	EPoly* poly = (EPoly*)baseObj->GetInterface(EPOLY_INTERFACE);
-	if (poly == NULL)
-		throw MAXException("Could not get EPoly interface.");
-
-	return poly->GetMeshPtr();
+	EPoly* poly = _get_epoly(node);
+	if (poly)
+		return poly->GetMeshPtr();
+	
+	return NULL;
 }
-
 
 
 //Returns true if the edge is one-sided (i.e. it has only one face).
@@ -78,12 +82,9 @@ bool _all(MNMesh* mesh, BitArray xs, indexedMeshOp f)
 
 void _flagHardEdges(MNMesh* mesh, DWORD flag)
 {
-	int edgeCount = mesh->ENum();
-	for (int e = 0; e < edgeCount; e++)
-	{
-		if (_isHard(mesh, e) && !_isOneSidedEdge(mesh, e))
-			mesh->E(e)->SetFlag(flag, true);
-	}
+	mesh->FenceSmGroups();
+	mesh->PropegateComponentFlags(MNM_SL_EDGE, HARD_EDGE_FLAG, MNM_SL_EDGE, MN_EDGE_NOCROSS);
+	mesh->ClearEFlags(MN_EDGE_NOCROSS);
 }
 
 void _addFlagHardEdges(MNMesh* mesh, BitArray edges, DWORD flag, bool val)
@@ -119,16 +120,10 @@ void _resmooth(MNMesh* mesh, BitArray edges, bool makeSoft)
 }
 
 
-void _redraw(INode* node, MNMesh* mesh)
-{
-	mesh->InvalidateTopoCache(false);
-	node->NotifyDependents(FOREVER, PART_TOPO, REFMSG_CHANGE);
-	Interface* ip = GetCOREInterface();
-	ip->RedrawViews(ip->GetTime());
-}
 
-
-
+//================================================
+// IsSoft / IsHard implementation
+//================================================
 BOOL EdgeSmooth::IsSoft(INode* node, BitArray* edges) 
 {
 	MNMesh* mesh = _get_mesh(node);
@@ -144,7 +139,11 @@ BOOL EdgeSmooth::IsHard(INode* node, BitArray* edges)
 
 
 
-BOOL EdgeSmooth::CanApply()
+
+//================================================
+// CanApplyToSelection implementation
+//================================================
+BOOL EdgeSmooth::CanApplyToSel()
 {
 	Interface* ip = GetCOREInterface();
 	
@@ -152,22 +151,31 @@ BOOL EdgeSmooth::CanApply()
 	if (ip->GetSelNodeCount() != 1)
 		return false;
 
-	INode* selNode = ip->GetSelNode(0);
+	Object* selObj = ip->GetSelNode(0)->GetObjectRef()->FindBaseObject();
+
+	// Verify that we're editing the base object, not a modifier.
+	if (ip->GetCurEditObject() != selObj)
+		return false;
+
 	// Check if sub-object level is 'edge'.
-	if (selNode->GetObjectRef()->GetSubselState() != MNM_SL_EDGE)
+	if (selObj->GetSubselState() != MNM_SL_EDGE)
 		return false;
 
 	// Check that selection is EPoly.
-	if (selNode->GetObjectRef()->FindBaseObject()->GetInterface(EPOLY_INTERFACE) == NULL)
+	if (selObj->GetInterface(EPOLY_INTERFACE) == NULL)
 		return false;
 
 	return true;
 }
 
 
+//================================================
+// Apply implementation
+//================================================
 void apply(bool makeSoft, INode* node, BitArray* edges, bool undoable)
 {
-	MNMesh* mesh =  _get_mesh(node);
+	EPoly* poly = _get_epoly(node);
+	MNMesh* mesh =  poly->GetMeshPtr();
 	int numSet = edges->NumberSet();
 	
 	if (undoable)
@@ -206,17 +214,21 @@ void apply(bool makeSoft, INode* node, BitArray* edges, bool undoable)
 		theHold.Accept(undoName);
 	}
 
-	_redraw(node, mesh);
+	//Notify EPoly of change and refresh screen.
+	poly->LocalDataChanged(PART_TOPO);
+	poly->RefreshScreen();
 }
 
 void EdgeSmooth::Apply(bool makeSoft) 
 {
-	if (!CanApply())
+	if (!CanApplyToSel())
 		throw MAXException("Cannot apply EdgeSmooth to the current selection");
-	
-	//Get edge selection.
+
+	//Get selected node.
 	Interface* ip = GetCOREInterface();
 	INode* selNode = ip->GetSelNode(0);
+
+	//Get edge selection.
 	BitArray* edgeSel = new BitArray();
 	MNMesh* mesh = _get_mesh(selNode);
 	mesh->getEdgeSel(*edgeSel);
@@ -230,6 +242,11 @@ void EdgeSmooth::Apply(bool makeSoft, INode* node, BitArray* edges)
 }
 
 
+
+
+//================================================
+// RestoreObject implementation
+//================================================
 void EdgeSmoothRestoreObj::Restore(int isUndo)
 {
 	apply(true, this->node, this->softEdges, false);

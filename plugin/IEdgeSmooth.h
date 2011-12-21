@@ -33,6 +33,7 @@ public:
 	enum {
 		es_isSoft,
 		es_isHard,
+		es_canApplyToSel,
 		es_apply,
 	};
 
@@ -40,6 +41,7 @@ public:
 	BEGIN_FUNCTION_MAP
 		FN_2(IEdgeSmooth::es_isSoft, TYPE_BOOL, EdgeSmooth::IsSoft, TYPE_INODE, TYPE_BITARRAY)
 		FN_2(IEdgeSmooth::es_isHard, TYPE_BOOL, EdgeSmooth::IsHard, TYPE_INODE, TYPE_BITARRAY)
+		FN_0(IEdgeSmooth::es_canApplyToSel, TYPE_BOOL, EdgeSmooth::CanApplyToSel);
 		VFN_3(IEdgeSmooth::es_apply, IEdgeSmooth::Apply, TYPE_bool, TYPE_INODE, TYPE_BITARRAY)
 	END_FUNCTION_MAP
 };
@@ -61,6 +63,6 @@ public:
 	BEGIN_FUNCTION_MAP
 		FN_ACTION(IEdgeSmoothActions::es_applySoft, ApplySoft)
 		FN_ACTION(IEdgeSmoothActions::es_applyHard, ApplyHard)
-		FN_PRED(IEdgeSmoothActions::es_isEnabled, EdgeSmooth::CanApply)
+		FN_PRED(IEdgeSmoothActions::es_isEnabled, EdgeSmooth::CanApplyToSel)
 	END_FUNCTION_MAP
 };

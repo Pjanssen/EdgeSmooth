@@ -20,10 +20,10 @@ public:
 	/// EdgeSmooth.IsHard $ (polyOp.getEdgeSelection $)
 	static BOOL IsHard(INode* node, BitArray* edges);
 
-	/// Returns true if the EdgeSmooth::Apply function can be applied to the current selection.
+	/// Returns true if the EdgeSmooth::Apply(bool) function can be applied to the current selection.
 	/// Will return false if the current selection count != 1, or if the currently selected object is
 	/// not a poly object.
-	static BOOL CanApply();
+	static BOOL CanApplyToSel();
 
 	/// Applies the EdgeSmooth function to the currerntly seleceted object and edge selection.
 	/// If makeSoft is true the edges will be smoothed. Maxscript usage example:

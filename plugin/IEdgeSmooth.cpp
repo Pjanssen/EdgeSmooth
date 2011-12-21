@@ -16,6 +16,7 @@ IEdgeSmooth edgesmooth_fn (
 		IEdgeSmooth::es_isHard, _M("IsHard"), 0, TYPE_BOOL, 0, 2,
 			_M("node"), 0, TYPE_INODE,
 			_M("edges"), 0, TYPE_BITARRAY,
+		IEdgeSmooth::es_canApplyToSel, _M("CanApplyToSel"), 0, TYPE_BOOL, 0, 0,
 		IEdgeSmooth::es_apply, _M("Apply"), 0, TYPE_VOID, 0, 3,
 			_M("soften"), 0, TYPE_BOOL,
 			_M("node"), 0, TYPE_INODE, f_keyArgDefault, NULL, 
@@ -68,16 +69,21 @@ void IEdgeSmooth::Apply(bool soften, INode* node, BitArray* edges)
 
 void IEdgeSmoothActions::init() { }
 
+void _showErrorMsgBox(MSTR msg)
+{
+	MessageBox(GetCOREInterface()->GetMAXHWnd(), _T(msg), _T("EdgeSmooth error"), MB_ICONERROR | MB_OK);
+}
+
 FPStatus IEdgeSmoothActions::ApplySoft()
 {
 	try
 	{
-		EdgeSmooth::Apply(true); 
+		EdgeSmooth::Apply(true);
 		return FPS_OK;
 	}
 	catch (MAXException e)
 	{
-		MessageBox(NULL, _T(e.message), _T("EdgeSmooth error"), MB_OK);
+		_showErrorMsgBox(e.message);
 		return FPS_FAIL;
 	}
 }
@@ -88,7 +94,7 @@ FPStatus IEdgeSmoothActions::ApplyHard()
 		EdgeSmooth::Apply(false); 
 		return FPS_OK;
 	} catch (MAXException e) {
-		MessageBox(NULL, _T(e.message), _T("EdgeSmooth error"), MB_OK);
+		_showErrorMsgBox(e.message);
 		return FPS_FAIL;
 	}
 }
