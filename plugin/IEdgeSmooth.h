@@ -6,6 +6,7 @@
 #include "iparamb2.h"
 #include "iparamm2.h"
 #include "iFnPub.h"
+#include "macrorec.h"
 #include <guplib.h>
 
 #include "EdgeSmooth.h"
