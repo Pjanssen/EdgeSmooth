@@ -1,7 +1,9 @@
 #pragma once
 
 #include "max.h"
+#include "resource.h"
 
+extern TCHAR* GetString(int id);
 
 class EdgeSmooth
 {
@@ -18,10 +20,10 @@ public:
 	/// EdgeSmooth.IsHard $ (polyOp.getEdgeSelection $)
 	static BOOL IsHard(INode* node, BitArray* edges);
 
-	/// Returns true if the EdgeSmooth::Apply function can be applied to the current selection.
+	/// Returns true if the EdgeSmooth::Apply(bool) function can be applied to the current selection.
 	/// Will return false if the current selection count != 1, or if the currently selected object is
 	/// not a poly object.
-	static BOOL CanApply();
+	static BOOL CanApplyToSel();
 
 	/// Applies the EdgeSmooth function to the currerntly seleceted object and edge selection.
 	/// If makeSoft is true the edges will be smoothed. Maxscript usage example:
@@ -32,4 +34,32 @@ public:
 	/// If makeSoft is true the edges will be smoothed. Maxscript usage example:
 	/// EdgeSmooth.Apply false node:$ edges:(polyop.getEdgeSelection $)
 	static void Apply(bool makeSoft, INode* node, BitArray* edges);
+};
+
+
+class EdgeSmoothRestoreObj : public RestoreObj
+{
+private:
+	bool makeSoft;
+	INode* node;
+	BitArray* softEdges;
+	BitArray* hardEdges;
+	
+public:
+	EdgeSmoothRestoreObj(bool makeSoft, INode* node, BitArray* softEdges, BitArray* hardEdges)
+	{
+		this->makeSoft = makeSoft;
+		this->node = node;
+		this->softEdges = softEdges;
+		this->hardEdges = hardEdges;
+	}
+	~EdgeSmoothRestoreObj() {}
+
+	BitArray* AllEdges() { return new BitArray((*(this->softEdges)) | (*(this->hardEdges))); }
+
+	int Size() { return sizeof(INode*) + sizeof(bool) + 2 * sizeof(BitArray*); }
+	void EndHold() { node->ClearAFlag(A_HELD); }
+
+	void Restore(int isUndo);
+	void Redo();
 };

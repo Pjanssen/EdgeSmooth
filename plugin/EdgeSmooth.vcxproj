@@ -642,7 +642,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy $(TargetPath) "$(LOCALAPPDATA)\Autodesk\3dsMax\2010 - 64bit\enu\plugins\$(TargetFileName)" /Y</Command>
+      <Command>copy $(TargetPath) "$(LOCALAPPDATA)\Autodesk\3dsMax\2010 - 64bit\enu\plugins\edgesmooth\$(TargetFileName)" /Y</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copy to plugin dir</Message>
