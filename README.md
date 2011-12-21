@@ -22,16 +22,14 @@ The main functions are exposed to maxscript through the EdgeSmooth interface:
 
     <boolean> IsSoft <node>node <bitArray>edges  
     <boolean> IsHard <node>node <bitArray>edges  
+    <boolean> CanApplyToSel ()  
     <void>    Apply  <boolean>soften node:<node> edges:<bitArray>  
-    
-    <boolean> MakeHard()  -- Action Interface, equiv. to Apply(false)  
-    <boolean> MakeSoft()  -- Action Interface, equiv. to Apply(true)  
     
 Example:  
 
     EdgeSmooth.Apply false $Sphere01 (polyop.getEdgeSelection $Sphere01)
   
-See EdgeSmooth.h for details.  
+See plugin/EdgeSmooth.h and tests/edgesmooth_test.ms for details and usage examples.  
 
 License
 -------
