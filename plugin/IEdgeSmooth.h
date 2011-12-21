@@ -66,3 +66,9 @@ public:
 		FN_PRED(IEdgeSmoothActions::es_isEnabled, EdgeSmooth::CanApplyToSel)
 	END_FUNCTION_MAP
 };
+
+
+class IEdgeSmoothMacroEmitter : public FPMacroEmitter
+{
+	void EmitMacro (FPInterface *fpi, FPFunctionDef *fd);
+};
