@@ -153,16 +153,16 @@ BOOL EdgeSmooth::CanApplyToSel()
 
 	Object* selObj = ip->GetSelNode(0)->GetObjectRef()->FindBaseObject();
 
+	// Check that selection is EPoly.
+	if (selObj->ClassID() != EPOLYOBJ_CLASS_ID)
+		return false;
+
 	// Verify that we're editing the base object, not a modifier.
 	if (ip->GetCurEditObject() != selObj)
 		return false;
 
 	// Check if sub-object level is 'edge'.
 	if (selObj->GetSubselState() != MNM_SL_EDGE)
-		return false;
-
-	// Check that selection is EPoly.
-	if (selObj->GetInterface(EPOLY_INTERFACE) == NULL)
 		return false;
 
 	return true;

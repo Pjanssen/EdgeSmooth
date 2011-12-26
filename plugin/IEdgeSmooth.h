@@ -6,6 +6,7 @@
 #include "iparamb2.h"
 #include "iparamm2.h"
 #include "iFnPub.h"
+#include "macrorec.h"
 #include <guplib.h>
 
 #include "EdgeSmooth.h"
@@ -65,4 +66,10 @@ public:
 		FN_ACTION(IEdgeSmoothActions::es_applyHard, ApplyHard)
 		FN_PRED(IEdgeSmoothActions::es_isEnabled, EdgeSmooth::CanApplyToSel)
 	END_FUNCTION_MAP
+};
+
+
+class IEdgeSmoothMacroEmitter : public FPMacroEmitter
+{
+	void EmitMacro (FPInterface *fpi, FPFunctionDef *fd);
 };

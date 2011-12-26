@@ -11,13 +11,15 @@ rollout edgesmooth_install ""
 
 struct edgeSmooth_installer (
 
-tempDir             = (GetDir #temp) + "/edgesmooth",
+appendPath = pathConfig.appendPath,
+
+tempDir             = appendPath (GetDir #temp) "edgesmooth\\",
 userIconsDir        = GetDir #userIcons,
 userDir             = pathConfig.removePathLeaf (getdir #userscripts),
-pluginDir           = userDir + "\\plugins\\edgesmooth",
-pluginUserSettings  = userDir + "\\Plugin.UserSettings.ini",
-strings_file        = tempDir + "/installer/strings.ini",
-installer_data_file = tempDir + "/installer/installer_data.ini",
+pluginDir           = appendPath userDir "plugins\\edgesmooth\\",
+pluginUserSettings  = appendPath userDir "Plugin.UserSettings.ini",
+strings_file        = appendPath tempDir "installer\\strings.ini",
+installer_data_file = appendPath tempDir "installer\\installer_data.ini",
 
 --Retrieves the string from the strings ini file.
 function getString key section:#Strings = 
@@ -26,7 +28,8 @@ function getString key section:#Strings =
    
    if (str == undefined) do 
    (
-      print ("Outliner installer: cannot find string " + key + " in section " + section);
+      print ("EdgeSmooth installer: cannot find string " + key \
+                                        + " in section " + section);
       str = "";
    )
    
@@ -76,21 +79,22 @@ function clearTempDir =
 
 function isPluginInstalled =
 (
-   local pluginFile = pathConfig.appendPath pluginDir "edgesmooth.gup";
+   local pluginFile = appendPath pluginDir "edgesmooth.gup";
    EdgeSmooth != undefined OR doesFileExist pluginFile;
 ),
 
 --Returns the plugin file for this 3dsmax version.
 function getPluginFile =
 (
-   local file = tempDir + "/plugin/max";
+   local file = appendPath tempDir "plugin\\max";
    file += (1998 + (maxVersion())[1] / 1000) as string;
    if (is64bitApplication()) then
       file += "_x64";
    else
       file += "_win32";
       
-   file + "/EdgeSmooth.gup";
+   file = appendPath file "EdgeSmooth.gup";
+   file;
 ),
 
 function checkMaxVersion =
@@ -181,10 +185,10 @@ function copyIcons =
    
    try
    (
-      local iconFiles = getFiles (tempDir + "/icons/*.bmp");
+      local iconFiles = getFiles (appendPath tempDir "icons\\*.bmp");
       for icon in iconFiles do
       (
-         local targetFile = pathConfig.appendPath userIconsDir (filenameFromPath icon);
+         local targetFile = appendPath userIconsDir (filenameFromPath icon);
          if (doesFileExist  targetFile) do
             deleteFile targetFile;
          
@@ -204,7 +208,7 @@ function removeIcons =
 (
    local result = true;
    
-   iconFiles = getFiles (userIconsDir + "/edgesmooth_*");
+   iconFiles = getFiles (appendPath userIconsDir "edgesmooth_*");
    for ico in iconFiles do
    (
       if (not (deleteFile ico)) do 
@@ -228,7 +232,7 @@ function copyPlugin =
       setINISetting pluginUserSettings #Directories #EdgeSmooth pluginDir;
       
       local pluginFile = getPluginFile();
-      local targetFile = (pluginDir + "/" + (filenameFromPath pluginFile));
+      local targetFile = appendPath pluginDir (filenameFromPath pluginFile);
       makeDir pluginDir;
       
       if (doesFileExist targetFile) do
@@ -255,15 +259,15 @@ function removePlugin =
    (
    delINISetting pluginUserSettings #Directories #EdgeSmooth;
    
-   local readme = openFile (pluginDir + "\\README.txt") mode:"wt";
+   local readme = openFile (appendPath pluginDir "README.txt") mode:"wt";
    format "This directory will be deleted the next time 3dsmax is started.\r\n" to:readme;
    format "If it isn't, close 3dsmax and remove it manually." to:readme;
    close readme;
    
-   local srcRemPluginScript = pathConfig.appendPath tempDir \
-                                                    "installer\\remove_edgesmooth_plugin.ms"
-   local tgtRemPluginScript = pathConfig.appendPath (GetDir #userStartupScripts) \
-                                                    "remove_edgesmooth_plugin.ms";
+   local srcRemPluginScript = appendPath tempDir \
+                                         "installer\\remove_edgesmooth_plugin.ms"
+   local tgtRemPluginScript = appendPath (GetDir #userStartupScripts) \
+                                         "remove_edgesmooth_plugin.ms";
    if (doesFileExist tgtRemPluginScript) do
       deleteFile tgtRemPluginScript;
    
@@ -283,7 +287,7 @@ function removePlugin =
 function loadPlugin =
 (
    colorman.reInitIcons();
-   loadDllsFromDir (pluginDir + "\\") "*.gup";
+   loadDllsFromDir pluginDir "*.gup";
    scanForNewPlugins();
 ),
 
@@ -345,7 +349,7 @@ function uninstall =
 
 function install =
 (
-   openInstallWindow 180;
+   openInstallWindow 140;
    setStatusTitle ((getString #title) + " " + (getString #inst));
    addStatusText (getString #begInst);
    

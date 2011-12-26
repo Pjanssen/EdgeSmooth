@@ -1,5 +1,7 @@
 #include "IEdgeSmooth.h"
 
+static IEdgeSmoothMacroEmitter macroEmitter;
+
 //================================================
 //Function Publishing declarations
 //================================================
@@ -38,6 +40,7 @@ IEdgeSmoothActions edgesmooth_actions (
 			f_toolTip, IDS_MAKE_HARD_TT,
 			f_buttonText, IDS_MAKE_HARD,
 			f_icon, "edgesmooth", 1,
+			f_macroEmitter, &macroEmitter,
 			//f_shortCut, FNOINVERT | FSHIFT, 72, //Shortcut does not seem to work when trying to use it...
 		end,	
 		IEdgeSmoothActions::es_applySoft, _T("MakeSoft"), IDS_MAKE_SOFT, 0,
@@ -46,6 +49,7 @@ IEdgeSmoothActions edgesmooth_actions (
 			f_toolTip, IDS_MAKE_SOFT_TT, 
 			f_buttonText, IDS_MAKE_SOFT,
 			f_icon, "edgesmooth", 2,
+			f_macroEmitter, &macroEmitter,
 			//f_shortCut, FNOINVERT | FSHIFT, 83, //Shortcut does not seem to work when trying to use it...
 		end,
 	end
@@ -96,5 +100,32 @@ FPStatus IEdgeSmoothActions::ApplyHard()
 	} catch (MAXException e) {
 		_showErrorMsgBox(e.message);
 		return FPS_FAIL;
+	}
+}
+
+
+
+//================================================
+// Macro Emitter implementation
+//================================================
+
+void IEdgeSmoothMacroEmitter::EmitMacro (FPInterface *fpi, FPFunctionDef *fd)
+{
+	MacroRecorder* mr = GetCOREInterface()->GetMacroRecorder();
+	if (mr->Enabled())
+	{
+		switch (fd->ID)
+		{
+			case IEdgeSmoothActions::es_applySoft:
+				mr->FunctionCall("EdgeSmooth.Apply", 1, 0, mr_bool, true);
+				break;
+			case IEdgeSmoothActions::es_applyHard:
+				mr->FunctionCall("EdgeSmooth.Apply", 1, 0, mr_bool, false);
+				break;
+			default:
+				return;
+		}
+
+		mr->EmitScript();
 	}
 }

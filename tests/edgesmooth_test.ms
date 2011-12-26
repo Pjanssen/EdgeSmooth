@@ -44,6 +44,21 @@ function testIsSoftIsHard =
 )
 
 
+function testCanApplyToSel =
+(
+	max modify mode;
+	assert (not (EdgeSmooth.CanApplyToSel())) message:"CanApply should return false for empty selection";
+	
+	local s = sphere();
+	select s;
+	assert (not (EdgeSmooth.CanApplyToSel())) message:"CanApply should return false for a sphere";
+	
+	convertTo s Editable_Poly;
+	assert (not (EdgeSmooth.CanApplyToSel())) message:"CanApply should return false for editable_poly";
+	
+	setSelectionLevel s #edge;
+	assert (EdgeSmooth.CanApplyToSel()) message:"CanApply should return true for editable_poly in edge selection";
+)
 
 function testApply = 
 (
@@ -60,9 +75,12 @@ function testApply =
 	assert (EdgeSmooth.IsSoft s #{edge}) message:("Apply(true) on #" + edge as string)
 )
 
-
-testIsSoftIsHard();
-testApply();
+with redraw off
+(
+	testIsSoftIsHard();
+	testCanApplyToSel();
+	testApply();
+)
 
 resetmaxfile #noPrompt
 )
