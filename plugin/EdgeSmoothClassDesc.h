@@ -30,6 +30,8 @@ public:
 	IOResult Save(ISave *isave);
 	IOResult Load(ILoad *iload);
 
+	void DeleteThis();
+
 	//Constructor/Destructor
 	edgesmooth_gup() { }
 	~edgesmooth_gup() { }	

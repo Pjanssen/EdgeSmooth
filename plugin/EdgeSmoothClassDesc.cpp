@@ -13,7 +13,7 @@ class edgeSmoothClassDesc : public ClassDesc2
 	Class_ID		ClassID() { return edgesmooth_CLASS_ID; }
 	const TCHAR* 	Category() { return GetString(IDS_CATEGORY); }
 
-	const TCHAR*	InternalName() { return _T("edgesmooth"); }	// returns fixed parsable name (scripter-visible name)
+	const TCHAR*	InternalName() { return _M("edgesmooth"); }	// returns fixed parsable name (scripter-visible name)
 	HINSTANCE		HInstance() { return hInstance; }			// returns owning module handle
 };
 
@@ -40,3 +40,5 @@ IOResult edgesmooth_gup::Save(ISave* isave) {
 IOResult edgesmooth_gup::Load(ILoad *iload) {
 	return IO_OK;
 }
+
+void edgesmooth_gup::DeleteThis() { }

@@ -42,7 +42,7 @@ bool _isOneSidedEdge(MNMesh* mesh, int e)
 bool _isSoft(MNMesh* mesh, int e)
 {
 	if (e < 0 || e >= mesh->ENum())
-		throw MAXException("EPoly edge index out of range");
+		throw MAXException(_M("EPoly edge index out of range"));
 
 	if (_isOneSidedEdge(mesh, e))
 		return false;
@@ -210,7 +210,7 @@ void apply(bool makeSoft, INode* node, BitArray* edges, bool undoable)
 	{
 		//It appears that theHold.Accept(int) is broken, and leads to unexpected 
 		//junk strings in the undo list. Otherwise I would have used that.
-		char* undoName = GetString(makeSoft ? IDS_MAKE_SOFT : IDS_MAKE_HARD);
+		TCHAR* undoName = GetString(makeSoft ? IDS_MAKE_SOFT : IDS_MAKE_HARD);
 		theHold.Accept(undoName);
 	}
 
@@ -222,7 +222,7 @@ void apply(bool makeSoft, INode* node, BitArray* edges, bool undoable)
 void EdgeSmooth::Apply(bool makeSoft) 
 {
 	if (!CanApplyToSel())
-		throw MAXException("Cannot apply EdgeSmooth to the current selection");
+		throw MAXException(_M("Cannot apply EdgeSmooth to the current selection"));
 
 	//Get selected node.
 	Interface* ip = GetCOREInterface();

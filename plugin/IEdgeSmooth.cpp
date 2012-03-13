@@ -2,12 +2,20 @@
 
 static IEdgeSmoothMacroEmitter macroEmitter;
 
+//The 3dsMax2013 SDK replaces 'end' with 'p_end'.
+#ifdef MAX2013_FP
+#define FP_END p_end
+#else
+#define FP_END end
+#endif
+
+
 //================================================
 //Function Publishing declarations
 //================================================
 IEdgeSmooth edgesmooth_fn (
 	EDGESMOOTH_FN_INTERFACE,
-	_T("iedgesmooth"),
+	_M("iedgesmooth"),
 	IDS_CLASS_NAME,
 	GetEdgeSmoothDesc(),
 
@@ -23,36 +31,36 @@ IEdgeSmooth edgesmooth_fn (
 			_M("soften"), 0, TYPE_BOOL,
 			_M("node"), 0, TYPE_INODE, f_keyArgDefault, NULL, 
 			_M("edges"), 0, TYPE_BITARRAY, f_keyArgDefault, NULL,
-	end
+	FP_END
 );
 
 IEdgeSmoothActions edgesmooth_actions (
 	EDGESMOOTH_ACT_INTERFACE,
-	_T("edgesmooth_actions"),
+	_M("edgesmooth_actions"),
 	IDS_CLASS_NAME,
 	GetEdgeSmoothDesc(),
 
 	FP_ACTIONS, 
 	kActionMainUIContext,
-		IEdgeSmoothActions::es_applyHard, _T("MakeHard"), IDS_MAKE_HARD, 0, 
+		IEdgeSmoothActions::es_applyHard, _M("MakeHard"), IDS_MAKE_HARD, 0, 
 			f_isEnabled, IEdgeSmoothActions::es_isEnabled,
 			f_menuText, IDS_MAKE_HARD,
 			f_toolTip, IDS_MAKE_HARD_TT,
 			f_buttonText, IDS_MAKE_HARD,
-			f_icon, "edgesmooth", 1,
+			f_icon, _M("edgesmooth"), 1,
 			f_macroEmitter, &macroEmitter,
 			//f_shortCut, FNOINVERT | FSHIFT, 72, //Shortcut does not seem to work when trying to use it...
-		end,	
-		IEdgeSmoothActions::es_applySoft, _T("MakeSoft"), IDS_MAKE_SOFT, 0,
+		FP_END,	
+		IEdgeSmoothActions::es_applySoft, _M("MakeSoft"), IDS_MAKE_SOFT, 0,
 			f_isEnabled, IEdgeSmoothActions::es_isEnabled,
 			f_menuText, IDS_MAKE_SOFT,
 			f_toolTip, IDS_MAKE_SOFT_TT, 
 			f_buttonText, IDS_MAKE_SOFT,
-			f_icon, "edgesmooth", 2,
+			f_icon, _M("edgesmooth"), 2,
 			f_macroEmitter, &macroEmitter,
 			//f_shortCut, FNOINVERT | FSHIFT, 83, //Shortcut does not seem to work when trying to use it...
-		end,
-	end
+		FP_END,
+	FP_END
 );
 
 
@@ -75,7 +83,7 @@ void IEdgeSmoothActions::init() { }
 
 void _showErrorMsgBox(MSTR msg)
 {
-	MessageBox(GetCOREInterface()->GetMAXHWnd(), _T(msg), _T("EdgeSmooth error"), MB_ICONERROR | MB_OK);
+	MessageBox(GetCOREInterface()->GetMAXHWnd(), msg, _M("EdgeSmooth error"), MB_ICONERROR | MB_OK);
 }
 
 FPStatus IEdgeSmoothActions::ApplySoft()
@@ -117,10 +125,10 @@ void IEdgeSmoothMacroEmitter::EmitMacro (FPInterface *fpi, FPFunctionDef *fd)
 		switch (fd->ID)
 		{
 			case IEdgeSmoothActions::es_applySoft:
-				mr->FunctionCall("EdgeSmooth.Apply", 1, 0, mr_bool, true);
+				mr->FunctionCall(_M("EdgeSmooth.Apply"), 1, 0, mr_bool, true);
 				break;
 			case IEdgeSmoothActions::es_applyHard:
-				mr->FunctionCall("EdgeSmooth.Apply", 1, 0, mr_bool, false);
+				mr->FunctionCall(_M("EdgeSmooth.Apply"), 1, 0, mr_bool, false);
 				break;
 			default:
 				return;

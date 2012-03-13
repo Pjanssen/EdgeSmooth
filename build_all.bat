@@ -1,6 +1,6 @@
 @ECHO OFF
 
-SET Configs=(max2010 max2011 max2012)
+SET Configs=(max2010 max2011 max2012 max2013)
 SET Platforms=(win32 x64)
 SET Project=plugin/EdgeSmooth.vcxproj
 

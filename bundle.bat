@@ -9,7 +9,12 @@ SET exclude_file=tmp_exclude.txt
 
 ECHO Checking bundle prerequisites...
 CALL :GetZip zip
+IF "%zip%"=="" goto :ZipNotFoundError
 dir "%zip%" > nul || goto :ZipNotFoundError
+
+
+:: CALL :GetZip zip
+:: dir "%zip%" > nul || goto :ZipNotFoundError
 
 ECHO Checking build directory...
 dir "%buildDir%" > nul || goto :buildNotFoundError
@@ -66,7 +71,7 @@ SET KEY_NAME=HKEY_LOCAL_MACHINE\SOFTWARE\7-Zip
 SET KEY_VALUE=Path
 
 FOR /F "tokens=2*" %%A IN ('REG QUERY "%KEY_NAME%" /v %KEY_VALUE% 2^>nul') DO (
-   set %~1=%%B7z.exe
+   SET %~1=%%B\7z.exe
 )
 goto :eof
 
